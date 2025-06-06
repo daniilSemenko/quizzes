@@ -1,26 +1,47 @@
-"use client";
-import {Button, Card, Flex} from "antd";
-import React from "react";
-import {Question} from "@/types/quizTypes";
+import { useState } from "react";
+import {Button, Flex, Typography} from "antd";
+import { useQuizStore } from "@/store/quizStore";
+import { Question } from "@/types/quizTypes";
+import he from "he";
 
-type Props = {
-    question: Question;
-    handleAnswer: (answer: string) => void;
-};
+export function QuestionCard({ question }: { question: Question }) {
+    const { submitAnswer } = useQuizStore();
+    const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
+    const [answered, setAnswered] = useState(false);
 
-export const QuestionCard: React.FC<Props> = ({ question, handleAnswer }) => {
-    const answers = [...question.incorrect_answers, question.correct_answer].sort(() => Math.random() - 0.5);
+    const handleSelect = (answer: string) => {
+        setSelectedAnswer(answer);
+        setAnswered(true);
+    };
 
     return (
-        <Card title={question.category}>
-            <p dangerouslySetInnerHTML={{ __html: question.question }} />
-            <Flex gap={8}>
-            {answers.map((answer) => (
-                <Button key={answer} onClick={() => handleAnswer(answer)}>
-                    {answer}
+        <div>
+            <Typography.Title level={2}>{he.decode(question.question)}</Typography.Title>
+            <Flex gap={6} wrap={"wrap"}>
+                <>
+            {question.incorrect_answers.concat(question.correct_answer).map((answer: string) => (
+                <Button key={answer} onClick={() => handleSelect(answer)} disabled={answered}>
+                    {he.decode(answer)}
                 </Button>
             ))}
+                </>
             </Flex>
-        </Card>
+            {answered && (
+                <div>
+                    {selectedAnswer === question.correct_answer ? (
+                        <p>✅ Верно!</p>
+                    ) : (
+                        <p>❌ Неверно! Правильный ответ: {question.correct_answer}</p>
+                    )}
+                    <Button type="primary" onClick={() => {
+                        submitAnswer(selectedAnswer!);
+                        setAnswered(false);
+                        setSelectedAnswer(null);
+                    }}>
+                        Далее
+                    </Button>
+                </div>
+            )}
+        </div>
     );
-};
+}

@@ -60,7 +60,6 @@ export const useQuizStore = create<QuizState>((set, get) => ({
         get().fetchQuestions(categoryId);
     },
 
-    // ✅ Выбор количества вопросов
     setQuestionCount: (count) => {
         set({ questionCount: Math.max(1, Math.min(count, 10)) });
     },

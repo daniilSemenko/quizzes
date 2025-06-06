@@ -19,8 +19,8 @@ export default function HomePage() {
     return (
         <Flex vertical gap={16}>
             <Typography.Title>Выберите категорию:</Typography.Title>
-            <Flex>
-                <p>Количество вопросов:</p>
+            <Flex gap={6} align={'center'}>
+                <Typography.Text type={'secondary'}>Количество вопросов:</Typography.Text>
                 <InputNumber
                     min={1}
                     max={10}

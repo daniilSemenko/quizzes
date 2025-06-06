@@ -1,10 +1,6 @@
 "use client";
-import { useEffect } from "react";
 
 export default function ErrorPage({ error, reset }: { error: Error; reset: () => void }) {
-    useEffect(() => {
-        console.error("Произошла ошибка:", error);
-    }, [error]);
 
     return (
         <div style={{ textAlign: "center", padding: "2rem" }}>
