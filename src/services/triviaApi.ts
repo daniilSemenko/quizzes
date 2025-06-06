@@ -8,8 +8,8 @@ export const fetchQuiz = async (): Promise<{ response_code: number; results: Que
         const response = await axios.get<QuizData>(API_URL);
 
         if (response.data.response_code !== 0) {
-            throw new Error(`Ошибка API: код ответа ${response.data.response_code}`);
-        }
+// ошибка апишки
+    }
 
         const categories: string[] = Array.from(new Set(response.data.results.map((q) => q.category)));
 

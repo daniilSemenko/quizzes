@@ -18,7 +18,7 @@ export default function HomePage() {
 
     return (
         <Flex vertical>
-            <p>Выберите категорию:</p>
+            <Typography.Title>Выберите категорию:</Typography.Title>
             <Flex vertical gap={16}>
                 <>
             {categories.map((category) => (
