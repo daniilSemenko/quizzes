@@ -1,101 +1,83 @@
 import { create } from "zustand";
+import { fetchCategories, fetchQuiz } from "@/services/triviaApi";
 import { Question } from "@/types/quizTypes";
-import { fetchQuiz } from "@/services/triviaApi";
 
 type QuizState = {
-    questionsByCategory: Record<string, Question[]>;
-    categories: string[];
+    categories: { id: number; name: string }[];
+    questions: Question[];
     currentCategory: string | null;
+    questionCount: number;
     currentIndex: number;
     correctAnswers: number;
     wrongAnswers: number;
     isLoading: boolean;
-    fetchData: () => Promise<void>;
-    startQuiz: (category: string) => void;
+    fetchCategories: () => Promise<void>;
+    fetchQuestions: (categoryId: number) => Promise<void>;
+    startQuiz: (category: string, categoryId: number) => void;
     submitAnswer: (answer: string) => void;
     resetQuiz: () => void;
+    setQuestionCount: (count: number) => void;
 };
 
 export const useQuizStore = create<QuizState>((set, get) => ({
-    questionsByCategory: {},
     categories: [],
+    questions: [],
     currentCategory: null,
+    questionCount: 5,
     currentIndex: 0,
     correctAnswers: 0,
     wrongAnswers: 0,
     isLoading: false,
 
-    fetchData: async () => {
-        set({ isLoading: true, currentCategory: null });
+    fetchCategories: async () => {
+        set({ isLoading: true });
+        try {
+            const categories = await fetchCategories();
+            set({ categories });
+        } catch (error) {
+            console.error(error);
+        } finally {
+            set({ isLoading: false });
+        }
+    },
+
+    fetchQuestions: async (categoryId: number) => {
+        set({ isLoading: true });
 
         try {
-            const data = await fetchQuiz();
-
-            if (!data.results || data.results.length === 0) {
-                // обработка ошибки не найдены вопросы
-            }
-
-            const questionsByCategory: Record<string, Question[]> = {};
-            data.results.forEach((q) => {
-                const cleanCategory = q.category.replace(/\s/g, "-");
-                if (!questionsByCategory[cleanCategory]) {
-                    questionsByCategory[cleanCategory] = [];
-                }
-                questionsByCategory[cleanCategory].push(q);
-            });
-
-            set({
-                categories: Object.keys(questionsByCategory),
-                questionsByCategory,
-            });
+            const { results } = await fetchQuiz(categoryId, get().questionCount);
+            set({ questions: results });
         } catch (error) {
-            // обработка ошибки
+            console.error(error);
         } finally {
             set({ isLoading: false });
         }
     },
 
 
-
-
-
-    startQuiz: (category) => {
-        const { questionsByCategory } = get();
-
-        if (!questionsByCategory[category] || questionsByCategory[category].length === 0) {
-            alert("Ошибка: вопросы для этой категории не загружены.");
-            return;
-        }
-
-        set({
-            currentCategory: category,
-            currentIndex: 0,
-            correctAnswers: 0,
-            wrongAnswers: 0,
-        });
+    startQuiz: (category, categoryId) => {
+        set({ currentCategory: category, currentIndex: 0, correctAnswers: 0, wrongAnswers: 0 });
+        get().fetchQuestions(categoryId);
     },
 
+    // ✅ Выбор количества вопросов
+    setQuestionCount: (count) => {
+        set({ questionCount: Math.max(1, Math.min(count, 10)) });
+    },
 
-    submitAnswer: (answer: string) => {
-        const { questionsByCategory, currentCategory, currentIndex, correctAnswers, wrongAnswers } = get();
-        if (!currentCategory) return;
-
-        const currentQuestion = questionsByCategory[currentCategory][currentIndex];
-        const isCorrect = currentQuestion.correct_answer === answer;
+    submitAnswer: (answer) => {
+        const { questions, currentIndex, correctAnswers, wrongAnswers } = get();
+        const currentQuestion = questions[currentIndex];
+        if (!currentQuestion) return;
 
         set({
-            correctAnswers: isCorrect ? correctAnswers + 1 : correctAnswers,
-            wrongAnswers: isCorrect ? wrongAnswers : wrongAnswers + 1,
+            correctAnswers: currentQuestion.correct_answer === answer ? correctAnswers + 1 : correctAnswers,
+            wrongAnswers: currentQuestion.correct_answer === answer ? wrongAnswers : wrongAnswers + 1,
             currentIndex: currentIndex + 1,
         });
     },
 
     resetQuiz: () => {
-        set({
-            currentCategory: null,
-            currentIndex: 0,
-            correctAnswers: 0,
-            wrongAnswers: 0,
-        });
+        set({ currentCategory: null, currentIndex: 0, correctAnswers: 0, wrongAnswers: 0, questions: [] });
     },
 }));
