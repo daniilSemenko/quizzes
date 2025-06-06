@@ -25,7 +25,7 @@ export default function HomePage() {
                     min={1}
                     max={10}
                     defaultValue={questionCount}
-                    onChange={(value) => setQuestionCount(value || 5)}
+                    onChange={(value) => setQuestionCount(Number(value) ?? 5)}
                 />
             </Flex>
             <>
