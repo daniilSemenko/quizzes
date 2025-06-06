@@ -1,6 +1,6 @@
-"use client";
-import { Card } from "antd";
-import React from "react";
+'use client';
+import { Card } from 'antd';
+import React from 'react';
 
 type Props = {
     name: string;

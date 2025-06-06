@@ -1,13 +1,14 @@
-"use client";
-import { useEffect } from "react";
-import { useQuizStore } from "@/store/quizStore";
-import { useRouter } from "next/navigation";
-import { Loader } from "@/components/Loader/Loader";
-import { CategoryItem } from "@/components/CategoryItem/CategoryItem";
-import { Flex, Typography, InputNumber } from "antd";
+'use client';
+import { useEffect } from 'react';
+import { useQuizStore } from '@/store/quizStore';
+import { useRouter } from 'next/navigation';
+import { Loader } from '@/components/Loader/Loader';
+import { CategoryItem } from '@/components/CategoryItem/CategoryItem';
+import { Flex, Typography, InputNumber } from 'antd';
 
 export default function HomePage() {
-    const { fetchCategories, categories, isLoading, startQuiz, setQuestionCount, questionCount } = useQuizStore();
+    const { fetchCategories, categories, isLoading, startQuiz, setQuestionCount, questionCount } =
+        useQuizStore();
     const router = useRouter();
 
     useEffect(() => {
@@ -29,12 +30,16 @@ export default function HomePage() {
                 />
             </Flex>
             <>
-            {categories.map(({ id, name }) => (
-                <CategoryItem key={id} name={name} onSelect={() => {
-                    startQuiz(name, id);
-                    router.push(`/quiz/${name.toLowerCase()}`);
-                }} />
-            ))}
+                {categories.map(({ id, name }) => (
+                    <CategoryItem
+                        key={id}
+                        name={name}
+                        onSelect={() => {
+                            startQuiz(name, id);
+                            router.push(`/quiz/${name.toLowerCase()}`);
+                        }}
+                    />
+                ))}
             </>
         </Flex>
     );

@@ -1,6 +1,6 @@
-import { create } from "zustand";
-import { fetchCategories, fetchQuiz } from "@/services/triviaApi";
-import { Question } from "@/types/quizTypes";
+import { create } from 'zustand';
+import { fetchCategories, fetchQuiz } from '@/services/triviaApi';
+import { Question } from '@/types/quizTypes';
 
 type QuizState = {
     categories: { id: number; name: string }[];
@@ -54,7 +54,6 @@ export const useQuizStore = create<QuizState>((set, get) => ({
         }
     },
 
-
     startQuiz: (category, categoryId) => {
         set({ currentCategory: category, currentIndex: 0, correctAnswers: 0, wrongAnswers: 0 });
         get().fetchQuestions(categoryId);
@@ -70,13 +69,21 @@ export const useQuizStore = create<QuizState>((set, get) => ({
         if (!currentQuestion) return;
 
         set({
-            correctAnswers: currentQuestion.correct_answer === answer ? correctAnswers + 1 : correctAnswers,
-            wrongAnswers: currentQuestion.correct_answer === answer ? wrongAnswers : wrongAnswers + 1,
+            correctAnswers:
+                currentQuestion.correct_answer === answer ? correctAnswers + 1 : correctAnswers,
+            wrongAnswers:
+                currentQuestion.correct_answer === answer ? wrongAnswers : wrongAnswers + 1,
             currentIndex: currentIndex + 1,
         });
     },
 
     resetQuiz: () => {
-        set({ currentCategory: null, currentIndex: 0, correctAnswers: 0, wrongAnswers: 0, questions: [] });
+        set({
+            currentCategory: null,
+            currentIndex: 0,
+            correctAnswers: 0,
+            wrongAnswers: 0,
+            questions: [],
+        });
     },
 }));

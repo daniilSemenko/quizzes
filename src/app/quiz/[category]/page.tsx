@@ -1,8 +1,8 @@
-"use client";
-import { useRouter } from "next/navigation";
-import { useQuizStore } from "@/store/quizStore";
-import { useEffect } from "react";
-import { QuestionCard } from "@/components/QuestionCard/QuestionCard";
+'use client';
+import { useRouter } from 'next/navigation';
+import { useQuizStore } from '@/store/quizStore';
+import { useEffect } from 'react';
+import { QuestionCard } from '@/components/QuestionCard/QuestionCard';
 
 export default function QuizPage() {
     const { questions, currentIndex, submitAnswer } = useQuizStore();
@@ -11,10 +11,9 @@ export default function QuizPage() {
 
     useEffect(() => {
         if (questions.length > 0 && currentIndex >= questions.length) {
-            router.push("/results");
+            router.push('/results');
         }
     }, [questions, currentIndex]);
-
 
     if (!currentQuestion) return null;
 
