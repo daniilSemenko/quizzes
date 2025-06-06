@@ -6,18 +6,19 @@ export const metadata = {
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
-  return (
-      <html lang="en">
-      <body>
-      <header>
-        <h1>Викторина 🚀</h1>
-      </header>
-      <main>{children}</main>
-      <footer>
-        <p>2025 Викторина</p>
-      </footer>
-      </body>
-      </html>
-  );
+    return (
+        <html lang="en">
+        <body>
+        <header>
+            <h1>Викторина 🚀</h1>
+        </header>
+        <main>{children}</main>
+        <footer>
+            <p>© 2025 Викторина</p>
+        </footer>
+        </body>
+        </html>
+    );
 }
+
 

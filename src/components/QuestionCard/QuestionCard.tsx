@@ -1,5 +1,5 @@
 "use client";
-import { Button, Card } from "antd";
+import {Button, Card, Flex} from "antd";
 import React from "react";
 import {Question} from "@/types/quizTypes";
 
@@ -14,11 +14,13 @@ export const QuestionCard: React.FC<Props> = ({ question, handleAnswer }) => {
     return (
         <Card title={question.category}>
             <p dangerouslySetInnerHTML={{ __html: question.question }} />
+            <Flex gap={8}>
             {answers.map((answer) => (
                 <Button key={answer} onClick={() => handleAnswer(answer)}>
                     {answer}
                 </Button>
             ))}
+            </Flex>
         </Card>
     );
 };

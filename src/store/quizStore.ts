@@ -32,7 +32,7 @@ export const useQuizStore = create<QuizState>((set, get) => ({
             const data = await fetchQuiz();
 
             if (!data.results || data.results.length === 0) {
-                throw new Error("Вопросы не найдены, попробуйте позже.");
+                // обработка ошибки не найдены вопросы
             }
 
             const questionsByCategory: Record<string, Question[]> = {};
@@ -49,11 +49,12 @@ export const useQuizStore = create<QuizState>((set, get) => ({
                 questionsByCategory,
             });
         } catch (error) {
-            alert(error.message);
+            // обработка ошибки
         } finally {
             set({ isLoading: false });
         }
     },
+
 
 
 

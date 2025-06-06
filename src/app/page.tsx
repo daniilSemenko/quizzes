@@ -4,7 +4,7 @@ import { useQuizStore } from "@/store/quizStore";
 import { useRouter } from "next/navigation";
 import {Loader} from "@/components/Loader/Loader";
 import {CategoryItem} from "@/components/CategoryItem/CategoryItem";
-import {Typography} from "antd";
+import {Flex, Typography} from "antd";
 
 export default function HomePage() {
     const { fetchData, categories, isLoading, startQuiz } = useQuizStore();
@@ -17,13 +17,17 @@ export default function HomePage() {
     if (isLoading) return <Loader />;
 
     return (
-        <div>
-            <Typography.Title level={5}>Выберите категорию:</Typography.Title>
+        <Flex vertical>
+            <p>Выберите категорию:</p>
+            <Flex vertical gap={16}>
+                <>
             {categories.map((category) => (
                 <CategoryItem key={category} name={category} onSelect={() => {
                     startQuiz(category);
                     router.push(`/quiz/${category.toLowerCase()}`);                }} />
             ))}
-        </div>
+                </>
+            </Flex>
+        </Flex>
     );
 }
