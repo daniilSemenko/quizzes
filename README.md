@@ -1,36 +1,38 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+    🏆 Quizzes — интерактивная викторина
+Добро пожаловать в Quizzes — проект, который предлагает интерактивные викторины по различным категориям!
 
-## Getting Started
+🚀 Функционал проекта
+✅ Выбор категории — пользователь выбирает категорию вопросов ✅ Выбор количества вопросов — от 1 до 10 ✅ Ответ на вопросы — после ответа показывается, правильный ли он ✅ Переход к следующему вопросу — кнопка "Далее" ✅ Обработка ошибок — если API недоступен или возникла ошибка ✅ Уведомления (notification) — показывают статус загрузки, ошибки, правильность ответа ✅ Чистый и удобный UI — разработан с использованием Ant Design
 
-First, run the development server:
+🛠 Технологии
+Next.js 15.3.3 — современный React-фреймворк
 
-```bash
+Zustand — удобное управление состоянием
+
+Ant Design — готовые UI-компоненты
+
+Axios — работа с API
+
+TypeScript — строгая типизация
+
+Prettier + ESLint — форматирование и качество кода
+
+📦 Установка
+git clone https://github.com/your-repo/quizzes.git
+cd quizzes
+npm install
+
+🚀 Запуск проекта
+Режим разработки
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+🛠 Линтинг и форматирование
+npm run lint   # Проверка кода
+npm run format # Автоформатирование кода
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+📡 API
+Проект использует Open Trivia Database API:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Получение категорий: https://opentdb.com/api_category.php
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Получение вопросов: https://opentdb.com/api.php?amount=10&category=9&type=multiple
