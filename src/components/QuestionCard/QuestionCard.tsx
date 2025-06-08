@@ -7,11 +7,11 @@ import he from 'he';
 export function QuestionCard({ question }: { question: Question }) {
     const { submitAnswer } = useQuizStore();
     const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
-    const [answered, setAnswered] = useState(false);
+
+    const hasAnswered = selectedAnswer !== null;
 
     const handleSelect = (answer: string) => {
         setSelectedAnswer(answer);
-        setAnswered(true);
     };
 
     return (
@@ -25,14 +25,14 @@ export function QuestionCard({ question }: { question: Question }) {
                             <Button
                                 key={answer}
                                 onClick={() => handleSelect(answer)}
-                                disabled={answered}
+                                disabled={hasAnswered}
                             >
                                 {he.decode(answer)}
                             </Button>
                         ))}
                 </>
             </Flex>
-            {answered && (
+            {hasAnswered && (
                 <div>
                     {selectedAnswer === question.correct_answer ? (
                         <p>✅ Верно!</p>
@@ -43,7 +43,6 @@ export function QuestionCard({ question }: { question: Question }) {
                         type="primary"
                         onClick={() => {
                             submitAnswer(selectedAnswer!);
-                            setAnswered(false);
                             setSelectedAnswer(null);
                         }}
                     >

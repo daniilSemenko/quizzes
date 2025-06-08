@@ -21,7 +21,7 @@ export const useQuizStore = create<QuizState>((set, get) => ({
             const categories = await fetchCategories();
             set({ categories });
         } catch (error) {
-            throw new Error('Не удалось загрузить категории. Попробуйте снова позже.');
+            console.error(error);
         } finally {
             set({ isLoading: false });
         }
@@ -32,6 +32,10 @@ export const useQuizStore = create<QuizState>((set, get) => ({
 
         try {
             const { results } = await fetchQuiz(categoryId, get().questionCount);
+            if (!results || results.length === 0) {
+                throw new Error('Ошибка: вопросы не загружены');
+            }
+
             set({ questions: results });
         } catch (error) {
             console.error(error);
@@ -54,11 +58,11 @@ export const useQuizStore = create<QuizState>((set, get) => ({
         const currentQuestion = questions[currentIndex];
         if (!currentQuestion) return;
 
+        const isCorrect = currentQuestion.correct_answer === answer;
+
         set({
-            correctAnswers:
-                currentQuestion.correct_answer === answer ? correctAnswers + 1 : correctAnswers,
-            wrongAnswers:
-                currentQuestion.correct_answer === answer ? wrongAnswers : wrongAnswers + 1,
+            correctAnswers: isCorrect ? correctAnswers + 1 : correctAnswers,
+            wrongAnswers: isCorrect ? wrongAnswers : wrongAnswers + 1,
             currentIndex: currentIndex + 1,
         });
     },
