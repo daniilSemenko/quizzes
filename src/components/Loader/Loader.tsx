@@ -1,10 +1,9 @@
 'use client';
-import { Spin } from 'antd';
+import { Flex, Spin } from 'antd';
+import { styles } from '@/components/Loader/Loader.style';
 
 export const Loader = () => (
-    <div
-        style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}
-    >
+    <Flex justify={'center'} align="center" style={styles.containerLoader}>
         <Spin size="large" />
-    </div>
+    </Flex>
 );

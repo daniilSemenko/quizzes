@@ -1,7 +1,6 @@
 import axios from 'axios';
-import { Question } from '@/types/quizTypes';
-
-const API_BASE = 'https://opentdb.com';
+import { Question } from '@/store/Quiz/quizTypes';
+import { API_BASE } from '@/api/httpClient';
 
 export const fetchCategories = async (): Promise<{ id: number; name: string }[]> => {
     try {
@@ -11,7 +10,7 @@ export const fetchCategories = async (): Promise<{ id: number; name: string }[]>
             name: category.name,
         }));
     } catch (error) {
-        throw new Error('Не удалось загрузить категории. Попробуйте снова позже.');
+        return Promise.reject(error);
     }
 };
 

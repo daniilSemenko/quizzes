@@ -1,10 +1,12 @@
 'use client';
-import { useEffect } from 'react';
-import { useQuizStore } from '@/store/quizStore';
+import React, { useEffect } from 'react';
+import { useQuizStore } from '@/store/Quiz/quizStore';
 import { useRouter } from 'next/navigation';
 import { Loader } from '@/components/Loader/Loader';
 import { CategoryItem } from '@/components/CategoryItem/CategoryItem';
-import { Flex, Typography, InputNumber } from 'antd';
+import { Flex, Typography, InputNumber, List } from 'antd';
+
+const DEFAULT_QUESTIONS = 5;
 
 export default function HomePage() {
     const { fetchCategories, categories, isLoading, startQuiz, setQuestionCount, questionCount } =
@@ -26,11 +28,12 @@ export default function HomePage() {
                     min={1}
                     max={10}
                     defaultValue={questionCount}
-                    onChange={(value) => setQuestionCount(Number(value) ?? 5)}
+                    onChange={(value) => setQuestionCount(Number(value) ?? DEFAULT_QUESTIONS)}
                 />
             </Flex>
-            <>
-                {categories.map(({ id, name }) => (
+            <List
+                dataSource={categories}
+                renderItem={({ id, name }: { id: number; name: string }) => (
                     <CategoryItem
                         key={id}
                         name={name}
@@ -39,8 +42,8 @@ export default function HomePage() {
                             router.push(`/quiz/${name.toLowerCase()}`);
                         }}
                     />
-                ))}
-            </>
+                )}
+            />
         </Flex>
     );
 }

@@ -1,6 +1,6 @@
 'use client';
 import { useRouter } from 'next/navigation';
-import { useQuizStore } from '@/store/quizStore';
+import { useQuizStore } from '@/store/Quiz/quizStore';
 import { useEffect } from 'react';
 import { QuestionCard } from '@/components/QuestionCard/QuestionCard';
 

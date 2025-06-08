@@ -1,5 +1,5 @@
 'use client';
-import { useQuizStore } from '@/store/quizStore';
+import { useQuizStore } from '@/store/Quiz/quizStore';
 import { Button, Card } from 'antd';
 import { useRouter } from 'next/navigation';
 

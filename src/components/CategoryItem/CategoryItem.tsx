@@ -1,5 +1,5 @@
 'use client';
-import { Card } from 'antd';
+import { Card, List } from 'antd';
 import React from 'react';
 
 type Props = {
@@ -9,8 +9,10 @@ type Props = {
 
 export const CategoryItem: React.FC<Props> = ({ name, onSelect }) => {
     return (
-        <Card hoverable onClick={onSelect}>
-            <h3>{name}</h3>
-        </Card>
+        <List.Item onClick={onSelect}>
+            <Card hoverable style={{ width: '100%' }}>
+                <h3>{name}</h3>
+            </Card>
+        </List.Item>
     );
 };

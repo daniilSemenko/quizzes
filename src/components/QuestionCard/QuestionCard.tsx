@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Button, Flex, Typography } from 'antd';
-import { useQuizStore } from '@/store/quizStore';
-import { Question } from '@/types/quizTypes';
+import { useQuizStore } from '@/store/Quiz/quizStore';
+import { Question } from '@/store/Quiz/quizTypes';
 import he from 'he';
 
 export function QuestionCard({ question }: { question: Question }) {

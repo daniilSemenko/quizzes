@@ -1,25 +1,8 @@
 import { create } from 'zustand';
-import { fetchCategories, fetchQuiz } from '@/services/triviaApi';
-import { Question } from '@/types/quizTypes';
+import { fetchCategories, fetchQuiz } from '@/api/triviaApi';
+import { Question, QuizState } from '@/store/Quiz/quizTypes';
 
-type QuizState = {
-    categories: { id: number; name: string }[];
-    questions: Question[];
-    currentCategory: string | null;
-    questionCount: number;
-    currentIndex: number;
-    correctAnswers: number;
-    wrongAnswers: number;
-    isLoading: boolean;
-    fetchCategories: () => Promise<void>;
-    fetchQuestions: (categoryId: number) => Promise<void>;
-    startQuiz: (category: string, categoryId: number) => void;
-    submitAnswer: (answer: string) => void;
-    resetQuiz: () => void;
-    setQuestionCount: (count: number) => void;
-};
-
-export const useQuizStore = create<QuizState>((set, get) => ({
+const initialState = {
     categories: [],
     questions: [],
     currentCategory: null,
@@ -28,14 +11,17 @@ export const useQuizStore = create<QuizState>((set, get) => ({
     correctAnswers: 0,
     wrongAnswers: 0,
     isLoading: false,
+};
 
+export const useQuizStore = create<QuizState>((set, get) => ({
+    ...initialState,
     fetchCategories: async () => {
         set({ isLoading: true });
         try {
             const categories = await fetchCategories();
             set({ categories });
         } catch (error) {
-            console.error(error);
+            throw new Error('Не удалось загрузить категории. Попробуйте снова позже.');
         } finally {
             set({ isLoading: false });
         }
@@ -78,12 +64,6 @@ export const useQuizStore = create<QuizState>((set, get) => ({
     },
 
     resetQuiz: () => {
-        set({
-            currentCategory: null,
-            currentIndex: 0,
-            correctAnswers: 0,
-            wrongAnswers: 0,
-            questions: [],
-        });
+        set(initialState);
     },
 }));
