@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { fetchCategories, fetchQuiz } from '@/api/triviaApi';
-import { Question, QuizState } from '@/store/Quiz/quizTypes';
+import { QuizState } from '@/store/Quiz/quizTypes';
 
 const initialState = {
     categories: [],
